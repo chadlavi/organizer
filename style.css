@@ -1,0 +1,128 @@
+:root {
+    /*--font: monospace;*/
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+* {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+a {
+    color: #229cde;
+}
+body {
+	box-sizing: border-box;
+	color: #333;
+	font-size: 18px;
+	font-family: var(--font);
+    margin: 0;
+    max-width: 100%;
+	padding: 20px 40px;
+}
+button, input[type="submit"],input[type="button"] {
+    border: none;
+    border-radius: 0;
+    color: white;
+    background: #229cde;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-family: var(--font);
+    margin-right: 5px;
+    margin-top: 10px;
+}
+.empty {
+    text-align: center;
+    width: 400px;
+    margin: 0 auto;
+    padding: 40px;
+    border: 1px solid #229cde;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+.file {
+    border: 1px dashed #229cde;
+    width: 360px;
+    margin: 40px 0;
+    box-sizing: border-box;
+}
+.file #fileToUpload {
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+input[name="cancel"] {
+    background: grey;
+}
+input[name="sort"] {
+    background: green;
+}
+input[name="snooze"] {
+    background: purple;
+}
+input[name="delete"] {
+    background: red;
+}
+form .name {
+    width: 360px;
+    margin-bottom: 40px;
+}
+form .name #name {
+    border: none;
+    border-bottom: 1px solid #229cde;
+    font-family: inherit;
+    font-size: inherit;
+    width: 100%;
+}
+form label {
+    font-size: 80%;
+}
+.notify {
+    background: green;
+    color: white;
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+.notify.snooze {
+    background-color: purple;
+}
+.notify.delete {
+    background-color: red;
+}
+.thing {
+	display: inline-block;
+	margin: 0 0 60px 0;
+	vertical-align: top;
+	width: 400px;
+    max-width: 100%;
+}
+.thing .title {
+	width: 360px;
+    max-width: calc(100% - 40px);
+}
+.thing .title .name {
+	font-size: 120%;
+	font-weight: bold;
+}
+.thing img {
+	max-width: calc(100% - 40px);
+}
+.thing.late .due {
+	color: red;
+	font-weight: bold;
+}
+.thing .snooze {
+	color: purple;
+	font-weight: bold;
+}
+.buttons {
+	width: 360px;
+}
+.thing form {
+	display: inline-block;
+}
