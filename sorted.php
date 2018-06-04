@@ -1,8 +1,8 @@
 <?php
 date_default_timezone_set('America/New_York');
 #header contents
-session_start();
 include 'includes/connect.php';
+include 'includes/notification.php';
 #body contents
 $sql = "select id, name, image, date_format(convert_tz(created, '+00:00', '-04:00'), '%Y-%m-%d %H:%i') as 'created' from things where ordered=1 order by created desc;";
 #$sql = "SELECT image, id, name, created FROM things WHERE ordered=1 ORDER BY created desc;";
@@ -59,7 +59,7 @@ echo
 # end of body
 if(isset($_POST['unsort'])) {
 	$conn->query("UPDATE things SET ordered = 0 where id=" . $_POST["id"]);
-    $_SESSION['notify']['message'] = "<div class=\"notify unsort\">\"" . urldecode($_POST["name"]) . "\" unsorted.</div>";
+    notify("\"" . urldecode($_POST["name"]) . "\" unsorted.", "unsort");
 	header("location: {$_SERVER['PHP_SELF']}");
     exit;
 };
@@ -67,21 +67,12 @@ if(isset($_POST['delete'])) {
 	$conn->query("DELETE from things where id=" . $_POST["id"]);
     $image = $_POST["image"];
     shell_exec("rm $image");
-    $_SESSION['notify']['message'] = "<div class=\"notify delete\">\"" . urldecode($_POST["name"]) . "\" deleted.</div>";
+    notify("\"" . urldecode($_POST["name"]) . "\" deleted.", "delete");
 	header("location: {$_SERVER['PHP_SELF']}");
     exit;
 };
-notification();
 echo
 "</body>
 </html>";
-
-function notification() {
-    if(isset($_SESSION['notify'])) {
-        echo $_SESSION['notify']['message'];
-        echo "<script type=\"text/javascript\"> window.setTimeout(function() {document.querySelector('.notify').style.display='none';},3000); </script>";
-        unset($_SESSION['notify']);
-    };
-};
 
 ?>

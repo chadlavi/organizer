@@ -1,4 +1,5 @@
 <?php
+include "includes/notification.php";
 date_default_timezone_set('America/New_York');
 
 /* 	add:
@@ -19,10 +20,6 @@ echo
 </head>
 <body>
 <h1>Add thing</h1>
-";
-
-echo
-"
 <form id=\"uploadform\" action=\"\" method=\"post\" enctype=\"multipart/form-data\">
     <div>Select image to upload:</div>
     <div class=\"file\">
@@ -60,10 +57,6 @@ echo
         <input type=\"submit\" value=\"Cancel\" name=\"cancel\">
     </div>
 </form>
-";
-
-echo
-"
 </body>
 </html>
 ";
@@ -102,7 +95,7 @@ if(isset($_POST["submit"])) {
         $conn->query("INSERT INTO things (name, image) VALUES (\"" . $_POST["name"] . "\",\"" . $target_file . "\")");
         header("location: /");
     } else {
-        echo "Sorry, there was an error uploading your file.";
+        notify("Sorry, there was an error uploading the file.", "delete");
     }
     exit;
 }

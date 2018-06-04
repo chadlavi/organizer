@@ -1,8 +1,8 @@
 <?php
 date_default_timezone_set('America/New_York');
 #header contents
-session_start();
 include 'includes/connect.php';
+include 'includes/notification.php';
 
 #body contents
 $sql = "select id, name, image, date_format(convert_tz(created, '+00:00', '-04:00'), '%Y-%m-%d %H:%i') as 'created', date_format(adddate(adddate(convert_tz(created, '+00:00', '-04:00'), interval 3 hour), interval snooze day), '%Y-%m-%d %H:%i') as 'due', snooze, date_format(convert_tz(CURRENT_TIMESTAMP, '+00:00', '-04:00'), '%Y-%m-%d %H:%i') as 'now' from things where ordered=0 order by due asc;";
@@ -73,13 +73,13 @@ echo
 # end of body
 if(isset($_POST['sort'])) {
 	$conn->query("UPDATE things SET ordered = 1 where id=" . $_POST["id"]);
-    $_SESSION['notify']['message'] = "<div class=\"notify\">\"" . urldecode($_POST["name"]) . "\" sorted.</div>";
+    notify("\"" . urldecode($_POST["name"]) . "\" sorted.");
 	header("location: {$_SERVER['PHP_SELF']}");
     exit;
 };
 if(isset($_POST['snooze'])) {
 	$conn->query("UPDATE things SET snooze = snooze + 1 where id=" . $_POST["id"]);
-    $_SESSION['notify']['message'] = "<div class=\"notify snooze\">\"" . urldecode($_POST["name"]) . "\" snoozed.</div>";
+    notify("\"" . urldecode($_POST["name"]) . "\" snoozed.", "snooze");
 	header("location: {$_SERVER['PHP_SELF']}");
     exit;
 };
@@ -87,21 +87,12 @@ if(isset($_POST['delete'])) {
 	$conn->query("DELETE from things where id=" . $_POST["id"]);
     $image = $_POST["image"];
     shell_exec("rm $image");
-    $_SESSION['notify']['message'] = "<div class=\"notify delete\">\"" . urldecode($_POST["name"]) . "\" deleted.</div>";
+    notify("\"" . urldecode($_POST["name"]) . "\" deleted.", "delete");
 	header("location: {$_SERVER['PHP_SELF']}");
     exit;
 };
-notification();
 echo
 "</body>
 </html>";
-
-function notification() {
-    if(isset($_SESSION['notify'])) {
-        echo $_SESSION['notify']['message'];
-        echo "<script type=\"text/javascript\"> window.setTimeout(function() {document.querySelector('.notify').style.display='none';},3000); </script>";
-        unset($_SESSION['notify']);
-    };
-};
 
 ?>

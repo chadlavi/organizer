@@ -1,6 +1,5 @@
 <?php
 include "../secrets.php";
-$servername = "localhost";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

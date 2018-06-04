@@ -2,4 +2,5 @@
 $dbname = "";
 $username = "";
 $password = "";
+$servername = "";
 ?>
