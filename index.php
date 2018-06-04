@@ -1,28 +1,23 @@
 <?php
 date_default_timezone_set('America/New_York');
 #header contents
-include 'includes/connect.php';
+$page = "index";
 include 'includes/notification.php';
 
 #body contents
 $sql = "select id, name, image, date_format(convert_tz(created, '+00:00', '-04:00'), '%Y-%m-%d %H:%i') as 'created', date_format(adddate(adddate(convert_tz(created, '+00:00', '-04:00'), interval 3 hour), interval snooze day), '%Y-%m-%d %H:%i') as 'due', snooze, date_format(convert_tz(CURRENT_TIMESTAMP, '+00:00', '-04:00'), '%Y-%m-%d %H:%i') as 'now' from things where ordered=0 order by due asc;";
-#$sql = "SELECT image, id, name, created, adddate(adddate(created, interval 3 hour), snooze) as 'due', CURRENT_TIMESTAMP as 'now', snooze FROM things WHERE ordered=0 ORDER BY due asc;";
-$result = $conn->query($sql);
 echo
 "<!DOCTYPE html>
 <html>
 	<head>
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
         <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">
-        <title>Unsorted things (" . $result->num_rows . ")</title>
+        <title>Unsorted</title>
 	</head>
 	<body>
-        <h1>Unsorted Things (" . $result->num_rows . ")</h1>
-        <div>
-            <p><a href=\"sorted.php\">Sorted things</a></p>
-            <p><a href=\"add.php\"><button>Add new thing</button></a></p>
-        </div>
         <div class=\"things\">";
+include "includes/nav.php";
+$result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
@@ -59,8 +54,8 @@ if ($result->num_rows > 0) {
     echo 
     "
     <div class=\"empty\">
-        <p>Nothing here!</p>
-        <p><a href=\"add.php\">Add new thing</a></p>
+        <p>Nothing unsorted.</p>
+        <p><a href=\"add.php\">Add</a></p>
     </div>
     ";
 }
@@ -73,7 +68,7 @@ echo
 # end of body
 if(isset($_POST['sort'])) {
 	$conn->query("UPDATE things SET ordered = 1 where id=" . $_POST["id"]);
-    notify("\"" . urldecode($_POST["name"]) . "\" sorted.");
+    notify("\"" . urldecode($_POST["name"]) . "\" sorted.", "sort");
 	header("location: {$_SERVER['PHP_SELF']}");
     exit;
 };

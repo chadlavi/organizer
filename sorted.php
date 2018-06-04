@@ -1,12 +1,10 @@
 <?php
 date_default_timezone_set('America/New_York');
 #header contents
-include 'includes/connect.php';
+$page = "sorted";
 include 'includes/notification.php';
 #body contents
 $sql = "select id, name, image, date_format(convert_tz(created, '+00:00', '-04:00'), '%Y-%m-%d %H:%i') as 'created' from things where ordered=1 order by created desc;";
-#$sql = "SELECT image, id, name, created FROM things WHERE ordered=1 ORDER BY created desc;";
-$result = $conn->query($sql);
 
 echo
 "<!DOCTYPE html>
@@ -14,14 +12,12 @@ echo
 	<head>
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
         <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">
-        <title>Sorted things (" . $result->num_rows . ")</title>
+        <title>Sorted</title>
 	</head>
 	<body>
-        <h1>Sorted Things (" . $result->num_rows . ")</h1>
-        <div class=\"\">
-            <p><a href=\"index.php\">Unsorted things</a></p>
-        </div>
         <div class=\"things\">";
+include 'includes/nav.php';
+$result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {

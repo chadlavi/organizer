@@ -30,6 +30,9 @@ button, input[type="submit"],input[type="button"] {
     margin-right: 5px;
     margin-top: 10px;
 }
+.divider {
+    color: lightgrey;
+}
 .empty {
     text-align: center;
     width: 400px;
@@ -42,14 +45,17 @@ button, input[type="submit"],input[type="button"] {
 .file {
     border: 1px dashed #229cde;
     width: 360px;
-    margin: 40px 0;
+    margin: 40px 0 0 0;
     max-width: 100%;
     box-sizing: border-box;
+    background: hsla(201.1, 74%, 50.2%, 0.4);
+    position: relative;
 }
 .file #fileToUpload {
     padding: 20px;
     width: 100%;
     box-sizing: border-box;
+    z-index: 2;
 }
 h1 {
     font-size: 1.75rem;
@@ -81,17 +87,38 @@ form#uploadform {
 form .name {
     width: 360px;
     max-width: 100%;
-    margin-bottom: 40px;
+    margin: 40px 0;
 }
 form .name #name {
     border: none;
     border-bottom: 1px solid #229cde;
     font-family: inherit;
-    font-size: inherit;
+    font-size: 80%;
     width: 100%;
+    color: #229cde;
+    padding: 5px;
+    font-weight: lighter;
 }
 form label {
     font-size: 80%;
+}
+#nav {
+    top: 0;
+    left: 0;
+    font-size: 80%;
+    max-width: 100%;
+    padding: 0 0 20px 0;
+    margin: 0;
+}
+#nav a {
+    text-decoration: none;
+}
+#nav a.active {
+    border-bottom: 2px solid #555;
+    color: inherit;
+}
+#nav>div {
+    display: inline-block;
 }
 .notify {
     background: green;
