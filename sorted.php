@@ -18,7 +18,7 @@ echo
 	</head>
 	<body>
         <h1>Sorted Things (" . $result->num_rows . ")</h1>
-        <div class=\"thing\">
+        <div class=\"\">
             <p><a href=\"index.php\">Unsorted things</a></p>
         </div>
         <div class=\"things\">";
@@ -26,7 +26,7 @@ if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
         echo 
-			"<div class=\"thing" .($row["due"] < $row["now"] ? " late" : "") . "\">" .
+			"<div class=\"thing\">" .
 			"<img src=\"" . $row["image"]. "\">" .
 			"<div class=\"title\">" .
 			"<div class=\"name\">" . $row["name"]. "</div>" . 
@@ -59,7 +59,7 @@ echo
 # end of body
 if(isset($_POST['unsort'])) {
 	$conn->query("UPDATE things SET ordered = 0 where id=" . $_POST["id"]);
-    $_SESSION['notify']['message'] = "<div class=\"notify\">" . urldecode($_POST["name"]) . " sorted.</div>";
+    $_SESSION['notify']['message'] = "<div class=\"notify unsort\">\"" . urldecode($_POST["name"]) . "\" unsorted.</div>";
 	header("location: {$_SERVER['PHP_SELF']}");
     exit;
 };
@@ -67,7 +67,7 @@ if(isset($_POST['delete'])) {
 	$conn->query("DELETE from things where id=" . $_POST["id"]);
     $image = $_POST["image"];
     shell_exec("rm $image");
-    $_SESSION['notify']['message'] = "<div class=\"notify delete\">" . urldecode($_POST["name"]) . " deleted.</div>";
+    $_SESSION['notify']['message'] = "<div class=\"notify delete\">\"" . urldecode($_POST["name"]) . "\" deleted.</div>";
 	header("location: {$_SERVER['PHP_SELF']}");
     exit;
 };
@@ -79,6 +79,7 @@ echo
 function notification() {
     if(isset($_SESSION['notify'])) {
         echo $_SESSION['notify']['message'];
+        echo "<script type=\"text/javascript\"> window.setTimeout(function() {document.querySelector('.notify').style.display='none';},3000); </script>";
         unset($_SESSION['notify']);
     };
 };

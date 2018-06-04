@@ -18,9 +18,9 @@ echo
 	</head>
 	<body>
         <h1>Unsorted Things (" . $result->num_rows . ")</h1>
-        <div class=\"thing\">
+        <div>
             <p><a href=\"sorted.php\">Sorted things</a></p>
-            <p><a href=\"add.php\">Add new thing</a></p>
+            <p><a href=\"add.php\"><button>Add new thing</button></a></p>
         </div>
         <div class=\"things\">";
 if ($result->num_rows > 0) {
@@ -73,13 +73,13 @@ echo
 # end of body
 if(isset($_POST['sort'])) {
 	$conn->query("UPDATE things SET ordered = 1 where id=" . $_POST["id"]);
-    $_SESSION['notify']['message'] = "<div class=\"notify\">" . urldecode($_POST["name"]) . " sorted.</div>";
+    $_SESSION['notify']['message'] = "<div class=\"notify\">\"" . urldecode($_POST["name"]) . "\" sorted.</div>";
 	header("location: {$_SERVER['PHP_SELF']}");
     exit;
 };
 if(isset($_POST['snooze'])) {
 	$conn->query("UPDATE things SET snooze = snooze + 1 where id=" . $_POST["id"]);
-    $_SESSION['notify']['message'] = "<div class=\"notify snooze\">" . urldecode($_POST["name"]) . " snoozed.</div>";
+    $_SESSION['notify']['message'] = "<div class=\"notify snooze\">\"" . urldecode($_POST["name"]) . "\" snoozed.</div>";
 	header("location: {$_SERVER['PHP_SELF']}");
     exit;
 };
@@ -87,7 +87,7 @@ if(isset($_POST['delete'])) {
 	$conn->query("DELETE from things where id=" . $_POST["id"]);
     $image = $_POST["image"];
     shell_exec("rm $image");
-    $_SESSION['notify']['message'] = "<div class=\"notify delete\">" . urldecode($_POST["name"]) . " deleted.</div>";
+    $_SESSION['notify']['message'] = "<div class=\"notify delete\">\"" . urldecode($_POST["name"]) . "\" deleted.</div>";
 	header("location: {$_SERVER['PHP_SELF']}");
     exit;
 };
@@ -99,6 +99,7 @@ echo
 function notification() {
     if(isset($_SESSION['notify'])) {
         echo $_SESSION['notify']['message'];
+        echo "<script type=\"text/javascript\"> window.setTimeout(function() {document.querySelector('.notify').style.display='none';},3000); </script>";
         unset($_SESSION['notify']);
     };
 };

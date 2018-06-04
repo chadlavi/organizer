@@ -9,7 +9,15 @@ $target_file = $target_dir . uniqid();
 echo "target file is " . $target_file;
 #$target_file = $target_dir . basename($_FILES["fileToUpload"]["tmp_name"]) . time();
 
-if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+$image_base64 = $_POST["image"];
+#$image_base64 = str_replace("data:image/png;base64,", "", $image_base64);
+$image_base64 = str_replace(" ", "+", $image_base64);
+//Convert base64 string to image data
+$image = base64_decode($image_base64);
+//Save image to final destination
+;
+if (file_put_contents($target_file, $image)) {
+#if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
     echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
     $exif = exif_read_data($target_file);
     $ort = $exif['Orientation']; /*STORES ORIENTATION FROM IMAGE */
